@@ -3,8 +3,9 @@ const {ProductModel}=require("../model/product.model")
 const {CartModel}=require("../model/cart.model")
 const productRouter=express.Router()
 
-productRouter.get("/",(req,res)=>{
-    res.send("Products")
+productRouter.get("/",async(req,res)=>{
+    let allproduct = await ProductModel.find()
+    res.send(allproduct);
 })
 
 productRouter.post("/addnew",async(req,res)=>{
