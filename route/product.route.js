@@ -4,8 +4,14 @@ const {CartModel}=require("../model/cart.model")
 const productRouter=express.Router()
 
 productRouter.get("/",async(req,res)=>{
-    let allproduct = await ProductModel.find()
-    res.send(allproduct);
+    if(req.query.gender){
+        let allproduct = await ProductModel.find({gender:`${req.query.gender}`})
+        res.send(allproduct)    
+    }
+    else{
+        let allproduct = await ProductModel.find()
+        res.send(allproduct);
+    }
 })
 
 productRouter.post("/addnew",async(req,res)=>{
