@@ -13,7 +13,14 @@ productRouter.get("/",async(req,res)=>{
         res.send(allproduct);
     }
 })
-
+productRouter.get("/men",async(req,res)=>{
+        let allproduct = await ProductModel.find({gender:"men"})
+        res.send(allproduct)    
+})
+productRouter.get("/women",async(req,res)=>{
+    let allproduct = await ProductModel.find({gender:"women"})
+    res.send(allproduct)    
+})
 productRouter.post("/addnew",async(req,res)=>{
     try {
         let title = req.body.title;
