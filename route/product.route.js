@@ -16,8 +16,22 @@ productRouter.get("/",async(req,res)=>{
 productRouter.get("/men",async(req,res)=>{
     try {
         if(req.query.sortBy &&  req.query.sortBy == "price"){
-            let allproduct = await ProductModel.find({gender:"men"})
-            res.send(allproduct)
+            if(req.query.order == "asc"){
+                let data = await ProductModel.find({gender:"men"})
+                data.forEach((ele)=>{
+                    ele.newp = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
+                  })
+                  data.sort((a,b)=>{return a.newp - b.newp})
+                  res.send(data)
+            }
+            else if(req.query.order == "desc"){
+                let data = await ProductModel.find({gender:"men"})
+                data.forEach((ele)=>{
+                    ele.newp = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
+                  })
+                  data.sort((a,b)=>{return b.newp - a.newp})
+                  res.send(data)
+            }
         }
         else if(req.query.sortBy &&  req.query.sortBy == "title"){
             let data = await ProductModel.find({gender:"men"});
