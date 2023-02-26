@@ -4,20 +4,20 @@ const {CartModel}=require("../model/cart.model")
 const productRouter=express.Router()
 
 productRouter.get("/",async(req,res)=>{
-    if(req.query.gender){
-        let allproduct = await ProductModel.find({gender:`${req.query.gender}`})
-        res.send(allproduct)    
-    }
-    else{
+    // if(req.query.gender){
+    //     let allproduct = await ProductModel.find({gender:`${req.query.gender}`})
+    //     res.send(allproduct)    
+    // }
+    // else{
         let allproduct = await ProductModel.find()
         res.send(allproduct);
-    }
+    // }
 })
 productRouter.get("/men",async(req,res)=>{
     try {
         if(req.query.sortBy &&  req.query.sortBy == "price"){
             if(req.query.order == "asc"){
-                let data = await ProductModel.find();
+                let data = await ProductModel.find({gender:"men"});
                 data.forEach((ele)=>{
                     ele.price = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
                 })
@@ -32,11 +32,9 @@ productRouter.get("/men",async(req,res)=>{
                 data.sort((a,b)=>{return b.price - a.price})
                 res.send(data);
             }    
-            // let dprice = +ele.price - (+ele.price * (ele.discount / 100));
-            //     newprice.textContent = "₹ " + Math.floor(dprice);
         }
         else if(req.query.sortBy &&  req.query.sortBy == "title"){
-            let data = await ProductModel.find();
+            let data = await ProductModel.find({gender:"men"});
             data.sort((a, b) => {
                 let fa = a.title.toLowerCase(),
                     fb = b.title.toLowerCase();
@@ -54,17 +52,56 @@ productRouter.get("/men",async(req,res)=>{
         else{
             let allproduct = await ProductModel.find({gender:"men"})
             res.send(allproduct)
-        } 
-        
+        }         
+    } catch (error) {
+        res.send(error)
+    }      
+})
+productRouter.get("/women",async(req,res)=>{
+    try {
+        if(req.query.sortBy &&  req.query.sortBy == "price"){
+            if(req.query.order == "asc"){
+                let data = await ProductModel.find({gender:"women"});
+                data.forEach((ele)=>{
+                    ele.price = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
+                })
+                data.sort((a,b)=>{return a.price - b.price})
+                res.send(data);
+            }
+            else if(req.query.order == "desc"){
+                let data = await ProductModel.find();
+                data.forEach((ele)=>{
+                    ele.price = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
+                })
+                data.sort((a,b)=>{return b.price - a.price})
+                res.send(data);
+            }    
+        }
+        else if(req.query.sortBy &&  req.query.sortBy == "title"){
+            let data = await ProductModel.find({gender:"women"});
+            data.sort((a, b) => {
+                let fa = a.title.toLowerCase(),
+                    fb = b.title.toLowerCase();
+            
+                if (fa < fb) {
+                    return -1;
+                }
+                if (fa > fb) {
+                    return 1;
+                }
+                return 0;
+            });
+            res.send(data);
+        }
+        else{
+            let allproduct = await ProductModel.find({gender:"women"})
+            res.send(allproduct)
+        }         
     } catch (error) {
         res.send(error)
     }
-      
 })
-productRouter.get("/women",async(req,res)=>{
-    let allproduct = await ProductModel.find({gender:"women"})
-    res.send(allproduct)    
-})
+
 productRouter.post("/addnew",async(req,res)=>{
     try {
         let title = req.body.title;
