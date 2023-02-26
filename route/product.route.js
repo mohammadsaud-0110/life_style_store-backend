@@ -51,7 +51,7 @@ productRouter.get("/men",async(req,res)=>{
         }
         else if(req.query.category){
             let {cat} = req.query.category
-            let allproduct = await ProductModel.find({$and:[{gender:"men"},{category:cat}]})
+            let allproduct = await ProductModel.find({$and:[{gender:"men"},{category:`${cat}`}]})
             res.send(allproduct);
         }
         else{
