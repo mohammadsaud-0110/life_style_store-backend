@@ -49,6 +49,10 @@ productRouter.get("/men",async(req,res)=>{
             });
             res.send(data);
         }
+        else if(req.query.category){
+            let allproduct = await ProductModel.find({gender:"men",category:`${req.query.category}`})
+            res.send(allproduct);
+        }
         else{
             let allproduct = await ProductModel.find({gender:"men"})
             res.send(allproduct)
@@ -92,6 +96,10 @@ productRouter.get("/women",async(req,res)=>{
                 return 0;
             });
             res.send(data);
+        }
+        else if(req.query.category){
+            let allproduct = await ProductModel.find({gender:"women",category:`${req.query.category}`})
+            res.send(allproduct);
         }
         else{
             let allproduct = await ProductModel.find({gender:"women"})
