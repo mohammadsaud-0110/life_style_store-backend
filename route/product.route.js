@@ -50,7 +50,7 @@ productRouter.get("/men",async(req,res)=>{
             res.send(data);
         }
         else if(req.query.category){
-            let allproduct = await ProductModel.find({$and:[{gender:"men"},{category:req.query.category}]})
+            let allproduct = await ProductModel.find({$and:[{gender:"men"},{category:`${req.query.category}`}]})
             res.send(allproduct);
         }
         else{
@@ -98,7 +98,7 @@ productRouter.get("/women",async(req,res)=>{
             res.send(data);
         }
         else if(req.query.category){
-            let allproduct = await ProductModel.find({$and:[{gender:"women"},{category:req.query.category}]})
+            let allproduct = await ProductModel.find({$and:[{gender:"women"},{category:`${req.query.category}`}]})
             res.send(allproduct);
         }
         else{
