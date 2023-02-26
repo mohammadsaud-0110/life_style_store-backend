@@ -37,7 +37,7 @@ productRouter.get("/men",async(req,res)=>{
         }
         else if(req.query.sortBy &&  req.query.sortBy == "title"){
             let data = await ProductModel.find();
-            data.sort((a,b)=>{return a.title - b.title})
+            data.sort((a,b)=>{return a - b})
             res.send(data);
         }
         else{
