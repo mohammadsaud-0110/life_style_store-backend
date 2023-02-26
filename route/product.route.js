@@ -16,22 +16,8 @@ productRouter.get("/",async(req,res)=>{
 productRouter.get("/men",async(req,res)=>{
     try {
         if(req.query.sortBy &&  req.query.sortBy == "price"){
-            if(req.query.order == "asc"){
-                let data = await ProductModel.find({gender:"men"});
-                data.forEach((ele)=>{
-                    ele.price = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
-                })
-                data.sort((a,b)=>{return a.price - b.price})
-                res.send(data);
-            }
-            else if(req.query.order == "desc"){
-                let data = await ProductModel.find();
-                data.forEach((ele)=>{
-                    ele.price = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
-                })
-                data.sort((a,b)=>{return b.price - a.price})
-                res.send(data);
-            }    
+            let allproduct = await ProductModel.find({gender:"men"})
+            res.send(allproduct)
         }
         else if(req.query.sortBy &&  req.query.sortBy == "title"){
             let data = await ProductModel.find({gender:"men"});
@@ -69,7 +55,7 @@ productRouter.get("/women",async(req,res)=>{
                 res.send(data);
             }
             else if(req.query.order == "desc"){
-                let data = await ProductModel.find();
+                let data = await ProductModel.find({gender:"women"});
                 data.forEach((ele)=>{
                     ele.price = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
                 })
