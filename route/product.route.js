@@ -21,11 +21,24 @@ productRouter.get("/men",async(req,res)=>{
                 data.forEach((ele)=>{
                     ele.price = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
                 })
+                data.sort((a,b)=>{return a.price - b.price})
                 res.send(data);
             }
-    
+            else if(req.query.order == "desc"){
+                let data = await ProductModel.find();
+                data.forEach((ele)=>{
+                    ele.price = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
+                })
+                data.sort((a,b)=>{return b.price - a.price})
+                res.send(data);
+            }    
             // let dprice = +ele.price - (+ele.price * (ele.discount / 100));
             //     newprice.textContent = "₹ " + Math.floor(dprice);
+        }
+        else if(req.query.sortBy &&  req.query.sortBy == "title"){
+            let data = await ProductModel.find();
+            data.sort((a,b)=>{return a.title - b.title})
+            res.send(data);
         }
         else{
             let allproduct = await ProductModel.find({gender:"men"})
