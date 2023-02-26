@@ -14,8 +14,22 @@ productRouter.get("/",async(req,res)=>{
     }
 })
 productRouter.get("/men",async(req,res)=>{
+    if(req.query.sortBy &&  req.query.sortBy == "price"){
+        if(req.query.order == "asc"){
+            let data = await ProductModel.find();
+            data.foeEach((ele)=>{
+                ele.price = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
+            })
+            res.send(data);
+        }
+
+        // let dprice = +ele.price - (+ele.price * (ele.discount / 100));
+        //     newprice.textContent = "₹ " + Math.floor(dprice);
+    }
+    else{
         let allproduct = await ProductModel.find({gender:"men"})
-        res.send(allproduct)    
+        res.send(allproduct)
+    }   
 })
 productRouter.get("/women",async(req,res)=>{
     let allproduct = await ProductModel.find({gender:"women"})
