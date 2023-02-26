@@ -18,7 +18,7 @@ productRouter.get("/men",async(req,res)=>{
         if(req.query.sortBy &&  req.query.sortBy == "price"){
             if(req.query.order == "asc"){
                 let data = await ProductModel.find();
-                data.foeEach((ele)=>{
+                data.forEach((ele)=>{
                     ele.price = Math.floor(+ele.price - (+ele.price * (ele.discount / 100)))
                 })
                 res.send(data);
